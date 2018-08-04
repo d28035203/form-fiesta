@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Form Fiesta</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>Form Fiesta</h1>
+  <form id="f" novalidate>
+    <label>Name <input id="name" name="name" required /></label>
+    <label>Email <input id="email" name="email" type="email" required /></label>
+    <label>Password <input id="pw" name="pw" type="password" minlength="6" required /></label>
+    <button type="submit">Join the fiesta</button>
+  </form>
+  <p id="msg"></p>
+  <script src="validate.js"></script>
+</body>
+</html>
