@@ -2,18 +2,59 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Form Fiesta</title>
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    body { font-family: system-ui, sans-serif; background: #12141a; color: #eee; max-width: 420px; margin: 2rem auto; padding: 0 1rem; }
+    label { display: block; margin: 0.75rem 0 0.25rem; font-size: 0.9rem; color: #bbb; }
+    input, select { width: 100%; box-sizing: border-box; padding: 0.55rem 0.65rem; border-radius: 6px; border: 1px solid #333; background: #1b1e27; color: #fff; }
+    input.bad { border-color: #e74c3c; }
+    button { margin-top: 1rem; width: 100%; padding: 0.7rem; border: 0; border-radius: 6px; background: #5b6cff; color: #fff; font-weight: 600; cursor: pointer; }
+    #toast { margin-top: 1rem; min-height: 1.2em; color: #7dcea0; }
+    .err { color: #e74c3c; font-size: 0.85rem; min-height: 1em; }
+  </style>
 </head>
 <body>
   <h1>Form Fiesta</h1>
+  <p>Client-side registration form with validation (no backend).</p>
   <form id="f" novalidate>
-    <label>Name <input id="name" name="name" required /></label>
-    <label>Email <input id="email" name="email" type="email" required /></label>
-    <label>Password <input id="pw" name="pw" type="password" minlength="6" required /></label>
-    <button type="submit">Join the fiesta</button>
+    <label for="name">Name</label>
+    <input id="name" name="name" autocomplete="name" required minlength="2" />
+    <div class="err" id="e-name"></div>
+    <label for="email">Email</label>
+    <input id="email" name="email" type="email" autocomplete="email" required />
+    <div class="err" id="e-email"></div>
+    <label for="password">Password</label>
+    <input id="password" name="password" type="password" required minlength="8" />
+    <div class="err" id="e-password"></div>
+    <label for="role">Role</label>
+    <select id="role"><option>Student</option><option>Developer</option><option>Other</option></select>
+    <button type="submit">Register</button>
   </form>
-  <p id="msg"></p>
-  <script src="validate.js"></script>
+  <div id="toast"></div>
+  <script>
+    const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const f = document.getElementById('f');
+    function setErr(id, msg) {
+      const input = document.getElementById(id);
+      const box = document.getElementById('e-' + id);
+      box.textContent = msg || '';
+      input.classList.toggle('bad', !!msg);
+    }
+    f.addEventListener('submit', (e) => {
+      e.preventDefault();
+      let ok = true;
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      if (name.length < 2) { setErr('name', 'Name must be at least 2 characters'); ok = false; } else setErr('name');
+      if (!emailRe.test(email)) { setErr('email', 'Enter a valid email'); ok = false; } else setErr('email');
+      if (password.length < 8) { setErr('password', 'Password must be at least 8 characters'); ok = false; } else setErr('password');
+      const toast = document.getElementById('toast');
+      if (!ok) { toast.textContent = ''; return; }
+      toast.textContent = 'Looks good — form validated locally for ' + name + '.';
+      f.reset();
+    });
+  </script>
 </body>
 </html>

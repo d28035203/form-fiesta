@@ -1,9 +1,13 @@
 # Form Fiesta
 
-**** Web Technology — HTML forms + client-side validation.
+Registration-style HTML form with client-side validation: required fields, email format, password length. No backend.
 
-A registration-style form with required fields, email check, and a success toast (no backend).
+## Run
 
-Open `index.html`.
+```bash
+open index.html
+```
 
-MIT · practice project
+## License
+
+MIT
